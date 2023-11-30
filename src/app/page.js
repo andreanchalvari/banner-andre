@@ -2,24 +2,33 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import './globals.css'
+import '@style/home.css'
 
 export default function Home() {
 
-  const [nama, setNama] = useState('Andrean Chalvari Lambi');
-  const [newNama, setNewNama] = useState("");
+  const [isSimpan, setSimpan] = useState("");
+  const [nama, setNama] = useState("Andrean Chalvari Lambi");
 
-  function handleInputChange(event){
-    setNewNama(event.target.value);
+  function handlerInputNama(event) {
+    // Prevent the browser from reloading the page
+    event.preventDefault();
+    setSimpan(event.target.value);
   }
-
-  function handlerGantiNama(){
-    setNama(newNama);
+  function handlerSubmit(event) {
+    // Prevent the browser from reloading the page
+    setNama(isSimpan);
+  }
+  function handlerKeyEnter(e){
+    e.preventDefault
+    if (e.key === 'Enter'){
+      setSimpan(e.target.value)
+      setNama(isSimpan);
+    }
   }
 
 
   return (
-    <div className='body'>
+    <>
       <div className="banner-container">
         {/* Kartunya */}
         <div className="header-banner-wrapper">
@@ -46,20 +55,18 @@ export default function Home() {
         </div>
         <div className="cta-banner-wrapper">
           {/* Tombol CTA */}
-          <div>
-            <input type='text' value={newNama} onChange={handleInputChange}>
-            </input>
-          </div>
-          <div className='cta-button' 
-            style={{
-              marginTop: '12px'
-            }}
-            
-            onClick={handlerGantiNama}>
+            <input 
+              name="input-nama"
+              type="text"
+              placeholder="Tuliskan namamu.."
+              onChange={handlerInputNama}
+              onKeyDown={handlerKeyEnter}
+            />
+          <div className='cta-button' onClick={handlerSubmit}>
               <p>Ganti Nama</p>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
